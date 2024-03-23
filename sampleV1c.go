@@ -28,7 +28,7 @@ func main() {
 	}
 }
 
-const endpoint = "https://search-opensearch-fmi7qdkvmmpwtiqntnxnr32x7u.us-east-1.es.amazonaws.com" // e.g. https://opensearch-domain.region.com
+const endpoint = "url" // e.g. https://opensearch-domain.region.com
 
 func example() error {
 	// ctx := context.Background()
