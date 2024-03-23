@@ -21,13 +21,13 @@ func main() {
 	}
 }
 
-const endpoint = "" // e.g. https://opensearch-domain.region.com
+const endpoint = "url" // e.g. https://opensearch-domain.region.com
 
 func example() error {
 	// Create an AWS request Signer and load AWS configuration using default config folder or env vars.
 	// See https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html#request-signing-go
 	signer, err := requestsigner.NewSignerWithService(
-		session.Options{SharedConfigState: session.SharedConfigEnable},
+		session.Options{Profile: "default"},
 		requestsigner.OpenSearchService, // Use requestsigner.OpenSearchServerless for Amazon OpenSearch Serverless.
 	)
 	if err != nil {
@@ -47,13 +47,13 @@ func example() error {
 	}
 
 	ctx := context.Background()
-    
-    ping, err := client.Ping(ctx, nil)
-    if err != nil {
-        return err
-    }
 
-    fmt.Println(ping)
+	ping, err := client.Ping(ctx, nil)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(ping)
 
 	return nil
 }
