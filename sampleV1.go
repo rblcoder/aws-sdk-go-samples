@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"os"
-
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	requestsigner "github.com/opensearch-project/opensearch-go/v3/signer/aws"
 
@@ -27,7 +28,10 @@ func example() error {
 	// Create an AWS request Signer and load AWS configuration using default config folder or env vars.
 	// See https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html#request-signing-go
 	signer, err := requestsigner.NewSignerWithService(
-		session.Options{Profile: "default"},
+		session.Options{Config: aws.Config{
+			Region:      aws.String("region"),
+			Credentials: credentials.NewStaticCredentials("access key id", "secret access key", ""),
+		},},
 		requestsigner.OpenSearchService, // Use requestsigner.OpenSearchServerless for Amazon OpenSearch Serverless.
 	)
 	if err != nil {
@@ -47,13 +51,13 @@ func example() error {
 	}
 
 	ctx := context.Background()
+    
+    ping, err := client.Ping(ctx, nil)
+    if err != nil {
+        return err
+    }
 
-	ping, err := client.Ping(ctx, nil)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(ping)
+    fmt.Println(ping)
 
 	return nil
 }
